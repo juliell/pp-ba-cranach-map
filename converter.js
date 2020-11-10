@@ -11,7 +11,8 @@ async function loadPaintings() {
 
 async function buildJSONStructure() {
   // request for githubJson of paintings
-  return loadPaintings().items.map((item) => ({
+  const paintings = await loadPaintings();
+  return paintings.items.map((item) => ({
     type: 'Feature',
     geometry: {
       type: 'Point',
