@@ -1,0 +1,17 @@
+/* Stylesheet für die index.html */
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+  }
+  .body {
+    margin: 50px;
+    padding: 0px;
+  }
+
+  #header{
+    background-color: black;
+    
+  }

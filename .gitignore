@@ -102,3 +102,7 @@ dist
 
 # TernJS port file
 .tern-port
+.vscode/launch.json
+cda-paintings-v2.de.json
+data.geojson
+geoLocationsPaintings.json
