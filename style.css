@@ -1,0 +1,35 @@
+/* Stylesheet für die index.html */
+
+@charset "UTF-8";
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#wrapper {
+  width: auto;
+  height: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.map {
+  position: relative;
+}
+
+.body {
+  margin: 0px;
+  padding: 0px;
+}
+.mapboxgl-popup-content {
+  overflow-y: scroll;
+  max-width: 400px;
+  max-height: 200px;
+  }
+
+#header {
+  background-color: #646464;
+  height: 60px;
+  left: 0px;
+  right: 0px;
+  margin-top: 0px;
+}
