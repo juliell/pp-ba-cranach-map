@@ -14,14 +14,84 @@ function initMap() {
   map.addControl(new mapboxgl.NavigationControl());
 }
 
-async function cluster() {
+function addClusterLayer() {
+  // Design für Cluster
+  map.addLayer({
+    id: 'clusters',
+    type: 'circle',
+    source: 'paintings',
+    filter: ['has', 'point_count'],
+    paint: {
+      'circle-stroke-width': 1,
+      'circle-stroke-color': '#ffffff',
+      'circle-color': [
+        'step',
+        ['get', 'point_count'],
+        '#6b88ff',
+        75,
+        '#2c20d5',
+        500,
+        '#041a76'],
+      'circle-radius': [
+        'step',
+        ['get', 'point_count'],
+        20,
+        75,
+        30,
+        500,
+        40,
+      ],
+    },
+  });
+}
+
+function addUnclusteredLayer() {
+  // Design für einzelnen Clusterpunkt
+  map.addLayer({
+    id: 'unclustered-point',
+    type: 'circle',
+    source: 'paintings',
+    filter: ['!', ['has', 'point_count']],
+    paint: {
+      'circle-color': '#849cff',
+      'circle-radius': 10,
+      'circle-stroke-width': 1,
+      'circle-stroke-color': '#fff',
+    },
+  });
+}
+
+function addClusterCount() {
+  // Design für Cluster-Text
+  map.addLayer({
+    id: 'cluster-count',
+    type: 'symbol',
+    source: 'paintings',
+    layout: {
+      'text-field': '{point_count_abbreviated}',
+      'text-size': [
+        'step',
+        ['get', 'point_count'],
+        12,
+        75,
+        16,
+        500,
+        20,
+      ],
+    },
+    paint: {
+      'text-color': '#ffffff',
+    },
+  });
+}
+async function addData() {
   const paintingsGeoJson = await $.get('http://localhost:3000/data');
 
   // rausfilter der Objekte mit keinen (korrekten) Koordinaten
   paintingsGeoJson.features = paintingsGeoJson.features.filter((e) => e.geometry.coordinates[0] !== 0);
 
   map.on('load', () => {
-    console.log('Map load');
+    console.log('map load');
     map.addSource('paintings', {
       type: 'geojson',
       data: paintingsGeoJson,
@@ -29,81 +99,46 @@ async function cluster() {
       clusterRadius: 50,
     });
 
-    // Design für Cluster
-    map.addLayer({
-      id: 'clusters',
-      type: 'circle',
-      source: 'paintings',
-      filter: ['has', 'point_count'],
-      paint: {
-        'circle-stroke-width': 1,
-        'circle-stroke-color': '#ffffff',
-        'circle-color': [
-          'step',
-          ['get', 'point_count'],
-          '#6b88ff',
-          75,
-          '#2c20d5',
-          500,
-          '#041a76'],
-        'circle-radius': [
-          'step',
-          ['get', 'point_count'],
-          20,
-          75,
-          30,
-          500,
-          40,
-        ],
-      },
-    });
-
-    // Design für Cluster-Text
-    map.addLayer({
-      id: 'cluster-count',
-      type: 'symbol',
-      source: 'paintings',
-      layout: {
-        'text-field': '{point_count_abbreviated}',
-        'text-size': [
-          'step',
-          ['get', 'point_count'],
-          12,
-          75,
-          16,
-          500,
-          20,
-        ],
-      },
-      paint: {
-        'text-color': '#ffffff',
-      },
-    });
-
-    // Design für einzelnen Clusterpunkt
-    map.addLayer({
-      id: 'unclustered-point',
-      type: 'circle',
-      source: 'paintings',
-      filter: ['!', ['has', 'point_count']],
-      paint: {
-        'circle-color': '#849cff',
-        'circle-radius': 10,
-        'circle-stroke-width': 1,
-        'circle-stroke-color': '#fff',
-      },
-    });
+    addClusterLayer();
+    addUnclusteredLayer();
+    addClusterCount();
     console.log('layers added');
   });
+}
 
+function addPopup(e, features, clusterId, clusterSource) {
+  const pointCount = features[0].properties.point_count;
+  const coordinates = e.features[0].geometry.coordinates.slice();
+
+  // if uncluster ... 
+
+  // else
+  clusterSource.getClusterChildren(clusterId, (err, aFeatures) => {
+    console.log(aFeatures.length);
+
+    if (aFeatures.length === 1) {
+      clusterSource.getClusterLeaves(clusterId, pointCount, 0, (error, leavesFeatures) => {
+        let popupText = `<h1>${leavesFeatures[0].properties.location}</h1>`;
+        leavesFeatures.forEach((item) => {
+          popupText += `<p>${item.properties.titles}, ${item.properties.dated}<br> ${item.properties.repository}</p>`;
+        });
+
+        new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(popupText)
+          .addTo(map);
+      });
+    }
+  });
+}
+
+function clickClusters() {
   map.on('click', 'clusters', (e) => {
     const features = map.queryRenderedFeatures(e.point, {
       layers: ['clusters'],
     });
     const clusterId = features[0].properties.cluster_id;
     const clusterSource = map.getSource('paintings');
-    const pointCount = features[0].properties.point_count;
-    const coordinates = e.features[0].geometry.coordinates.slice();
 
     map.getSource('paintings').getClusterExpansionZoom(
       clusterId,
@@ -115,26 +150,11 @@ async function cluster() {
         });
       },
     );
-
-    clusterSource.getClusterChildren(clusterId, (err, aFeatures) => {
-      console.log(aFeatures.length);
-
-      if (aFeatures.length === 1) {
-        clusterSource.getClusterLeaves(clusterId, pointCount, 0, (error, leavesFeatures) => {
-          let popupText = `<h1>${leavesFeatures[0].properties.location}</h1>`;
-          leavesFeatures.forEach((item) => {
-            popupText += `<p>${item.properties.titles}, ${item.properties.dated}<br> ${item.properties.repository}</p>`;
-          });
-
-          new mapboxgl.Popup()
-            .setLngLat(coordinates)
-            .setHTML(popupText)
-            .addTo(map);
-        });
-      }
-    });
+    addPopup(e, features, clusterId, clusterSource);
   });
+}
 
+function clickUnclusteredPoint() {
   map.on('click', 'unclustered-point', (e) => {
     const coordinates = e.features[0].geometry.coordinates.slice();
     const title = e.features[0].properties.titles;
@@ -149,6 +169,12 @@ async function cluster() {
                 <br>${repository}</p>`)
       .addTo(map);
   });
+}
+
+async function clusters() {
+  await addData();
+  clickClusters();
+  clickUnclusteredPoint();
 
   map.on('mouseenter', 'clusters', () => {
     map.getCanvas().style.cursor = 'pointer';
@@ -160,6 +186,5 @@ async function cluster() {
 
 $(document).ready(async () => {
   initMap();
-  await cluster();
-  // await getLocations();
+  await clusters();
 });
