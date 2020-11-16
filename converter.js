@@ -12,6 +12,7 @@ async function loadPaintings() {
 async function buildJSONStructure() {
   // request for githubJson of paintings
   const paintings = await loadPaintings();
+  // übernahme der relevanten Eigenschaften
   return paintings.items.map((item) => ({
     type: 'Feature',
     geometry: {
@@ -53,7 +54,7 @@ async function getLocation(city) {
   };
 }
 
-async function reverseGeoCode(cities, geoJSONPaintings) {
+async function forwardGeoCode(cities, geoJSONPaintings) {
   const promises = [];
   cities.forEach((city) => {
     promises.push(getLocation(city));
@@ -80,8 +81,9 @@ async function run() {
     type: 'FeatureCollection',
     features: await buildJSONStructure(),
   };
+
   const cities = collectCities(geoJSONPaintings);
-  geoJSONPaintings.features = await reverseGeoCode(cities, geoJSONPaintings);
+  geoJSONPaintings.features = await forwardGeoCode(cities, geoJSONPaintings);
   saveGeoJSON(geoJSONPaintings);
 }
 

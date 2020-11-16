@@ -84,17 +84,18 @@ function addClusterCount() {
     },
   });
 }
+
 async function addData() {
-  const paintingsGeoJson = await $.get('http://localhost:3000/data');
+  const paintingsGeoJSON = await $.get('http://localhost:3000/data');
 
   // rausfilter der Objekte mit keinen (korrekten) Koordinaten
-  paintingsGeoJson.features = paintingsGeoJson.features.filter((e) => e.geometry.coordinates[0] !== 0);
+  paintingsGeoJSON.features = paintingsGeoJSON.features.filter((e) => e.geometry.coordinates[0] !== 0);
 
   map.on('load', () => {
     console.log('map load');
     map.addSource('paintings', {
       type: 'geojson',
-      data: paintingsGeoJson,
+      data: paintingsGeoJSON,
       cluster: true,
       clusterRadius: 50,
     });
@@ -110,12 +111,7 @@ function addPopup(e, features, clusterId, clusterSource) {
   const pointCount = features[0].properties.point_count;
   const coordinates = e.features[0].geometry.coordinates.slice();
 
-  // if uncluster ... 
-
-  // else
   clusterSource.getClusterChildren(clusterId, (err, aFeatures) => {
-    console.log(aFeatures.length);
-
     if (aFeatures.length === 1) {
       clusterSource.getClusterLeaves(clusterId, pointCount, 0, (error, leavesFeatures) => {
         let popupText = `<h1>${leavesFeatures[0].properties.location}</h1>`;
