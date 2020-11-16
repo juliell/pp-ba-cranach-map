@@ -14,10 +14,6 @@ server.get('/data', (req, res) => {
   res.sendFile(`${__dirname}/data.geojson`);
 });
 
-server.get('/geo', (req, res) => {
-  res.sendFile(`${__dirname}/geoLocationsPaintings.json`);
-});
-
 server.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
 });
