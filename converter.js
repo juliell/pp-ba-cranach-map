@@ -12,7 +12,7 @@ async function loadPaintings() {
 async function buildJSONStructure() {
   // request for githubJson of paintings
   const paintings = await loadPaintings();
-  // übernahme der relevanten Eigenschaften
+  // adoption of the relevant properties
   return paintings.items.map((item) => ({
     type: 'Feature',
     geometry: {
@@ -40,8 +40,8 @@ async function getLocation(city) {
   if (city === '') {
     return {
       name: city,
-      lat: 0,
-      lng: 0,
+      lat: 200,
+      lng: 200,
     };
   }
   const response = await axios.get(encodeURI(`${config.geocodeUrl}?q=${city}&apiKey=${config.geocodeApiKey}`));
@@ -60,7 +60,7 @@ async function forwardGeoCode(cities, geoJSONPaintings) {
     promises.push(getLocation(city));
   });
 
-  // json(lat, lng) in locationsPaintings speichern
+  // save json(lat, lng) in locationsPaintings
   const locationsPaintings = await Promise.all(promises);
 
   geoJSONPaintings.features.forEach((item) => {

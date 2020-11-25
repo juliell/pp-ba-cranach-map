@@ -10,12 +10,12 @@ function initMap() {
     minZoom: 1,
     maxZoom: 10,
   });
-  // Add zoom and rotation controls to the map.
+  // Add zoom and rotation controls to the map
   map.addControl(new mapboxgl.NavigationControl());
 }
 
 function addClusterLayer() {
-  // Design für Cluster
+  // Design for cluster
   map.addLayer({
     id: 'clusters',
     type: 'circle',
@@ -46,7 +46,7 @@ function addClusterLayer() {
 }
 
 function addUnclusteredLayer() {
-  // Design für einzelnen Clusterpunkt
+  // Design for single cluster point
   map.addLayer({
     id: 'unclustered-point',
     type: 'circle',
@@ -62,7 +62,7 @@ function addUnclusteredLayer() {
 }
 
 function addClusterCount() {
-  // Design für Cluster-Text
+  // Design for cluster text
   map.addLayer({
     id: 'cluster-count',
     type: 'symbol',
@@ -88,8 +88,8 @@ function addClusterCount() {
 async function addData() {
   const paintingsGeoJSON = await $.get('http://localhost:3000/data');
 
-  // rausfilter der Objekte mit keinen (korrekten) Koordinaten
-  paintingsGeoJSON.features = paintingsGeoJSON.features.filter((e) => e.geometry.coordinates[0] !== 0);
+  // Filter the objects with no (correct) coordinates
+  paintingsGeoJSON.features = paintingsGeoJSON.features.filter((e) => e.geometry.coordinates[0] !== 200);
 
   map.on('load', () => {
     console.log('map load');
