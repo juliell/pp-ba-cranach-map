@@ -24,49 +24,83 @@ async function buildJSONStructure() {
       classification: item.classification.classification,
       titles: item.titles[0].title,
       dated: item.dating.dated,
-      location: item.locations[0].term.toLowerCase() === 'wittenberg' ? `${item.locations[0].term}, Lutherstadt` : item.locations[0].term,
+      location: item.locations[0].term,
+      country: item.locations[0].path.split(' > ')[0],
       repository: item.repository,
       owner: item.owner,
+      inventoryNumber: item.inventoryNumber,
+      image: item.images ? item.images.representative.variants[0].s.src : '',
     },
   }));
 }
 
 function collectCities(geoJSONPaintings) {
-  const citiesPaintings = geoJSONPaintings.features.map((item) => item.properties.location);
-  return citiesPaintings.filter((elem, index, self) => index === self.indexOf(elem));
+  const paintingLocations = geoJSONPaintings.features.map((item) => `${item.properties.location},${item.properties.country}`);
+  return paintingLocations.filter((elem, index, self) => index === self.indexOf(elem));
 }
 
 async function getLocation(city) {
-  if (city === '') {
+  if (city === ',') {
     return {
-      name: city,
+      name: '',
       lat: 200,
       lng: 200,
     };
   }
   const response = await axios.get(encodeURI(`${config.geocodeUrl}?q=${city}&apiKey=${config.geocodeApiKey}`));
-  const resultCity = response.data.items.find((resultItem) => resultItem.address.countryCode === 'DEU') || response.data.items[0];
-
+  const resultCity = response.data.items[0];
   return {
-    name: city,
+    name: city.split(',')[0],
     lat: resultCity.position.lat,
     lng: resultCity.position.lng,
   };
 }
 
 async function forwardGeoCode(cities, geoJSONPaintings) {
-  const promises = [];
-  cities.forEach((city) => {
-    promises.push(getLocation(city));
-  });
+  const lo = [];
+  let good = 0;
+  let bad = 0;
+
+  for (let i in cities) {
+      try {
+        const l = await getLocation(cities[i]);
+        console.log(l, 'succeded', i, 'von', cities.length);
+        lo.push(l);
+        good++;
+      } catch (err) {
+        console.log(cities[i], 'failed', err, i, 'von', cities.length);
+        lo.push({
+            name: cities[i].split(',')[0],
+            lat: 200,
+            lng: 200,
+        })
+        bad++;
+      }
+  }
+  console.log(good, 'cities found');
+  console.log(bad, 'cities not found');
+
+  const locationsPaintings = lo;
+
+  // ------------------------
+
+  // const promises = [];
+  // cities.forEach((city) => {
+  // promises.push(getLocation(city));
+  // });
 
   // save json(lat, lng) in locationsPaintings
-  const locationsPaintings = await Promise.all(promises);
+  // const locationsPaintings = await Promise.all(promises);
 
   geoJSONPaintings.features.forEach((item) => {
     const geoLocation = locationsPaintings.find((location) => location.name === item.properties.location);
-    item.geometry.coordinates.push(geoLocation.lng);
-    item.geometry.coordinates.push(geoLocation.lat);
+    if (geoLocation) {
+      item.geometry.coordinates.push(geoLocation.lng);
+      item.geometry.coordinates.push(geoLocation.lat);
+    } else {
+      item.geometry.coordinates.push(200);
+      item.geometry.coordinates.push(200);
+    }
   });
   return geoJSONPaintings.features;
 }
