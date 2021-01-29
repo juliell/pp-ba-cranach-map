@@ -1,48 +1,52 @@
 /* Stylesheet for index.html */
 
 @charset "UTF-8";
+html, body {
+  height: 100%;
+}
+
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-/* #wrapper {
-  width: auto;
-  height: 800px;
-  margin-left: auto;
-  margin-right: auto;
-} */
-
-.mapboxgl-map {
-  width: 100%;
-  height: 80%;
-}
-
-.map {
-  position: relative;
-}
-
-.body {
   margin: 0px;
   padding: 0px;
+}
+
+.full-height {
+  height: 100%
+}
+
+.flex-fill {
+  flex: 1 1 auto;
+}
+
+/* .container-fluid .main-container{
+  overflow: hidden;
+  }
+   */
+
+.map {
+  position: absolut;
+  top: 0;
+  bottom: 0;
 }
 
 .mapboxgl-popup-anchor-bottom {
   max-width: 500px !important;
   right: 25px;
 }
+
 .mapboxgl-popup-close-button {
-  height: 35px;
-  width: 35px;
+  height: 30px;
+  width: 30px;
   font-size: 20px;
 }
 
-.mapboxgl-popup-content{
-  overflow-y: scroll;
+.mapboxgl-popup-content {
+  overflow-y: auto;
   overflow-x: hidden;
-  min-width: 400px !important;
-  width: 400px !important;
-  max-height: 300px !important;
-  min-height: 300px !important; 
+  width: 300px;
+  height: 200px;
+  padding: 4px 4px 4px 4px
 }
 
 .mapboxgl-popup-content img {
@@ -51,53 +55,109 @@ body {
   max-width: 100px !important;
 }
 
-.searchResults{
-  overflow-x:hidden;
-  overflow-y: scroll;
-  max-height: 730px;
+.popupCity {
+  font-size: 16px;
+  padding-left: 5px;
+  padding-top: 2px;
+  margin-bottom: 5px;
 }
 
-.col-md-4 img {
-  max-height: 300px;
-  min-width: 150px;
+.popupCard {
+  width: 280px;
+  max-height: 150px;
+  margin-bottom: 5px;
+}
+.popupTitle {
+  font-size: 14px;
+  margin-bottom: 5px;
 }
 
-#header {
-  background-color: #646464;
-  height: 60px;
-  width: 100%;
+.popupText {
+  font-size: 11px;
+  margin-bottom: 3px;
+}
+
+.overlaybox {
+  position: absolute;
   left: 0px;
-  right: 0px;
-  margin-top: 0px;
+  top: 0px;
+  margin: 8px 0px 8px 8px;
+  z-index: 15;
+  text-align: left;
+  display: block;
+  width: 400px !important;
+  padding-right: 0px !important;
+  height: 100%;
 }
 
-#nav {
+.btn {
+  background-color: red;
+  border-color: #e7e7e7;
+}
+
+.searchResults {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 85%;
+  width: 400px;
+  background: white;
+  z-index: 200;
+  display: block;
+}
+
+.col-md-5 .img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  margin-left: 0px;
+}
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
   width: 100%;
-  height: 60px;
+  object-fit: contain;
 }
 
-#title {
-  line-height: 60px;
-  color: #ffffff;
-  font-size: 35px;
-  font-weight: bold;
-  text-align: center;
+.card-title .search {
+  font-size: 16px;
 }
 
-#footer {
-  background-color: #646464;
-  height: 30px;
-  width: 100%;
-  left: 0px;
-  right: 0px;
-  margin-top: 0px;
+.card-text .search {
+  font-size: 12px;
 }
 
-.map-container {
+/* width */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* .map-container {
   height: 1000px !important;
-}
+} */
 
-.has-search .form-control {
+/* .has-search .form-control {
   padding-left: 2.375rem;
   padding-right: 2.375rem;
 }
@@ -112,4 +172,4 @@ body {
   text-align: center;
   pointer-events: none;
   color: #aaa;
-}
+} */
