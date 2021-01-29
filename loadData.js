@@ -7,8 +7,8 @@ function initMap() {
   map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v9',
-    center: [3, 42],
-    minZoom: 1.2,
+    center: [-3, 32],
+    minZoom: 1.7,
     maxZoom: 10,
   });
   // Add zoom and rotation controls to the map
@@ -119,31 +119,32 @@ async function loadData() {
 function renderCard(searchResult, s) {
   const imageURL = searchResult.image !== '' ? searchResult.image : 'No-image-available.png';
   if (s === 1) {
-    return `<div class="card mb-3" style="max-width: 540px; max-height: 300px">
-  <div class="row g-0">
-    <div class="col-md-4 img">
-      <img src="${imageURL}" alt="kein Bild verfügbar">
+    return `<div class="card mb-3" style="width: 100%; height: 200px">
+  <div class="row g-0 m-0" style="height: inherit">
+    <div class="col-md-5 img p-0" style="height: inherit;">
+      <img class="center-block" src="${imageURL}" alt="kein Bild verfügbar">
     </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title">${searchResult.titles}</h5>
-        <p class="card-text">${searchResult.dated}<br>${searchResult.repository}<br>${searchResult.location}, ${searchResult.country}</p>
-        <p class="card-text"><small class="text-muted">
+    <div class="col-md-7 p-0" style="height: inherit">
+      <div class="card-body p-2" style="height: inherit">
+        <h5 class="card-title search">${searchResult.titles}</h5>
+        <p class="card-text search" style="
+        margin-bottom: 5px;">${searchResult.dated}<br>${searchResult.repository}<br>${searchResult.location}, ${searchResult.country}</p>
+        <p class="card-text search"><small class="text-muted">
         <a target="_blank" href="http://www.lucascranach.org/${searchResult.inventoryNumber}">mehr Infos</a></small></p>
       </div>
     </div>
   </div>
 </div>`;
-  } return `<div class="card mb-3" style="max-width: 540px; max-height: 250px;">
-  <div class="row g-0">
-    <div class="col-md-4">
-      <img src="${imageURL}" alt="kein Bild verfügbar">
+  } return `<div class="card popupCard">
+  <div class="row g-0 m-0" style="height: 150px;width: 290px;">
+    <div class="col-md-5 img p-0" style="height: 100%;">
+      <img class="center-block" src="${imageURL}" alt="kein Bild verfügbar">
     </div>
-    <div class="col-md-8">
-      <div class="card-body" style="padding-left: 30px;">
-        <h6 class="card-title mp-3">${searchResult.titles}</h6>
-        <p class="card-text mp-3">${searchResult.dated}<br>${searchResult.repository}<br>${searchResult.location}, ${searchResult.country}</p>
-        <p class="card-text mp-3"><small class="text-muted">
+    <div class="col-md-7 p-0" style="height: 100%;">
+      <div class="card-body p-0" style="margin-top: 5px">
+        <h6 class="card-title popupTitle">${searchResult.titles}</h6>
+        <p class="card-text popupText">${searchResult.dated}<br>${searchResult.repository}<br>${searchResult.location}, ${searchResult.country}</p>
+        <p class="card-text popupText"><small class="text-muted">
         <a target="_blank" href="http://www.lucascranach.org/${searchResult.inventoryNumber}">mehr Infos</a></small></p>
       </div>
     </div>
@@ -152,22 +153,20 @@ function renderCard(searchResult, s) {
 }
 
 function search() {
-  $('#searchInput').on('keyup', (e) => {
-    if (e.which === 13 && searchInput.value.length > 3) {
-      const searchString = searchInput.value.toLowerCase();
-      const filteredResult = { ...paintingsGeoJSON };
-      filteredResult.features = paintingsGeoJSON.features.filter((elem) => elem.properties.titles.toLowerCase().includes(searchString));
+  if ($('#searchInput').val().length > 2) {
+    const searchString = searchInput.value.toLowerCase();
+    const filteredResult = { ...paintingsGeoJSON };
+    filteredResult.features = paintingsGeoJSON.features.filter((elem) => elem.properties.titles.toLowerCase().includes(searchString));
 
-      let resultListHTML = '';
-      filteredResult.features.forEach((result) => {
-        resultListHTML += renderCard(result.properties, s = 1);
-      });
-      $('#searchResults').html(resultListHTML);
-      initMap();
-      clusters();
-      addData(filteredResult);
-    }
-  });
+    let resultListHTML = '';
+    filteredResult.features.forEach((result) => {
+      resultListHTML += renderCard(result.properties, s = 1);
+    });
+    $('#searchResults').html(resultListHTML);
+    initMap();
+    clusters();
+    addData(filteredResult);
+  }
 }
 
 function addPopupCluster(e, features, clusterId, clusterSource) {
@@ -177,7 +176,7 @@ function addPopupCluster(e, features, clusterId, clusterSource) {
   clusterSource.getClusterChildren(clusterId, (err, aFeatures) => {
     if (aFeatures.length === 1) {
       clusterSource.getClusterLeaves(clusterId, pointCount, 0, (error, leavesFeatures) => {
-        let popupText = `<h5>${leavesFeatures[0].properties.location}</h5>`;
+        let popupText = `<h5 Class="popupCity">${leavesFeatures[0].properties.location}</h5>`;
         leavesFeatures.forEach((item) => {
           popupText += renderCard(item.properties, s = 0);
         });
@@ -240,7 +239,7 @@ function clickUnclusteredPoint() {
 
     new mapboxgl.Popup()
       .setLngLat(coordinates)
-      .setHTML(`<h5>${e.features[0].properties.location}</h5>${renderCard(e.features[0].properties)}`)
+      .setHTML(`<h5 class="popupCity">${e.features[0].properties.location}</h5>${renderCard(e.features[0].properties)}`)
       .addTo(map);
   });
 }
@@ -276,4 +275,12 @@ $(document).ready(async () => {
   await loadData();
   clusters();
   search();
+
+  $('#searchInput').on('keyup', (e) => {
+    if (e.which === 13) search();
+  });
+
+  $('#searchButton').click(() => {
+    search();
+  });
 });
