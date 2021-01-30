@@ -21,25 +21,76 @@
     <div class="flex-fill">
       <div id="map" class="full-height">
         <div class="container overlaybox">
-          <div class="row" style="height: 50px; padding: initial;">
-            <div class="input-group mb-3" style="padding-left: 15px;">
+          <div class="row" style="height: 50px; padding: initial; width: 415px;">
+            <div class="input-group mb-3 searchBar">
               <input id="searchInput" type="text" class="form-control" placeholder="Suchen">
               <div class="input-group-append">
-                <button id="searchButton" class="btn btn-outline-secondary" type="button">
+                <button id="resetSearch" class="resetSearch searchbarButton btn btn-outline-secondary" type="button">
+                  <span class="bi bi-arrow-counterclockwise"></span>
+                </button>
+              </div>
+              <div class="input-group-append">
+                <button class="searchbarButton btn btn-outline-secondary" type="button">
+                  <span class="bi bi-search"></span>
+                </button>
+              </div>
+              <!-- <div class="input-group-append">
+                <button class="searchbarButton hidesearchResults btn btn-outline-secondary" style="display: none;"
+                  type="button">
+                  <span class="bi bi-chevron-left"></span>
+                </button>
+              </div>
+              <div class="input-group-append">
+                <button class="searchbarButton showsearchResults btn btn-outline-secondary" type="button"
+                  style="display: none;">
+                  <span class="bi bi-chevron-right"></span>
+                </button>
+              </div> -->
+            </div>
+          </div>
+          <div class="row" style="height: 50px; padding: initial; width: 415px;">
+            <div class="input-group mb-3 yearBar">
+              <input type="text" id="year0Input" class="form-control" placeholder="Jahr" aria-label="Datierungsbeginn">
+              <span class="input-group-text" style="border-radius: 0; border-left: none;
+              border-right: none;">-</span>
+              <input type="text" id="year1Input" class="form-control" placeholder="Jahr" aria-label="Datierungsende">
+              <div class="input-group-append">
+                <button class="yearSearchButton btn btn-outline-secondary" type="button">
                   <span class="bi bi-search"></span>
                 </button>
               </div>
             </div>
+
           </div>
-          
-            <div id="searchResults" class="searchResults"></div>
-          
+        </div>
+
+        <div class="card resultContainer">
+          <div class="card-header" style="
+          height: 25px;
+          font-size: 12px;
+          padding-left: 8px;
+          padding-top: 2px;
+          padding-bottom: 2px;
+          padding-right: 8px;">
+            <label id="countResults" text="Zahl"></label> Ergebnisse gefunden
+          </div>
+          <div class="card-body" style="padding: 8px; overflow-y: auto; max-height: 700px;">
+            <div class="searchResults"></div>
+          </div>
+        </div>
+
+
+        <!-- <div class="container p-0" style="margin-left: 8px; position: relative; top: 120px; width: 400px; width: 420px; min-height: 8px; max-height: 100%; display: block; background-color: white;">
+           -->
         </div>
       </div>
 
     </div>
   </div>
 
+  <!-- from cardSearch <p class="card-text search"><small class="text-muted">
+    <a target="_blank" href="http://www.lucascranach.org/${searchResult.inventoryNumber}">mehr Infos</a></small></p>
+   -->
   <!-- <nav class="navbar navbar-expand-md bg-dark navbar-dark">
             <div class="container-fluid">
               <div class="navbar-header">
