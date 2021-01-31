@@ -24,6 +24,7 @@ async function buildJSONStructure() {
       classification: item.classification.classification,
       titles: item.titles[0].title,
       dated: item.dating.dated,
+      dating: [item.dating.begin, item.dating.end],
       location: item.locations[0].term,
       country: item.locations[0].path.split(' > ')[0],
       repository: item.repository,

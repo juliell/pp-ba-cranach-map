@@ -67,9 +67,10 @@ body {
   max-height: 150px;
   margin-bottom: 5px;
 }
+
 .popupTitle {
   font-size: 14px;
-  margin-bottom: 5px;
+  margin-bottom: 5px !important;
 }
 
 .popupText {
@@ -81,18 +82,27 @@ body {
   position: absolute;
   left: 0px;
   top: 0px;
-  margin: 8px 0px 8px 8px;
-  z-index: 15;
+  margin-top: 8px;
+  margin-left: 8px !important;
+  margin-bottom: 8px;
+  padding-right: 0px;
+  z-index: 40;
   text-align: left;
   display: block;
-  width: 400px !important;
-  padding-right: 0px !important;
-  height: 100%;
+  width: 416px !important;
+  height: 104px;
+  background-color: white;
+  border-radius: 0.25rem;
 }
 
-.btn {
-  background-color: red;
-  border-color: #e7e7e7;
+.searchBar {
+  margin-bottom: 0px;
+  padding: 8px;
+}
+
+.yearBar {
+  margin-bottom: 0px;
+  padding: 8px;
 }
 
 .searchResults {
@@ -103,7 +113,50 @@ body {
   background: white;
   z-index: 200;
   display: block;
+  background-color: white;
 }
+
+.btn-outline-secondary {
+  background-color: white !important;
+  border: 1px solid #ced4da !important;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #555 !important;
+}
+
+.resetSearch {
+  display: none !important;
+}
+
+.resultContainer {
+  margin-left: 8px;
+  position: relative;
+  top: 120px;
+  width: 400px;
+  width: 420px;
+  min-height: 8px;
+  max-height: 100%;
+  display: none !important;
+  background-color: white;
+  z-index: 40;
+}
+
+/* .searchResults {
+  position: absolut;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 85%;
+  width: 400px !important;
+  padding-right: 0px !important;
+  padding-top: 60px !important;
+  background: white;
+  z-index: 200;
+  display: block;
+} */
 
 .col-md-5 .img {
   height: 100%;
@@ -121,8 +174,9 @@ body {
   object-fit: contain;
 }
 
-.card-title .search {
+.paintingIcon {
   font-size: 16px;
+  color: #6b88ff;
 }
 
 .card-text .search {
@@ -132,7 +186,7 @@ body {
 /* width */
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 /* Track */
@@ -152,24 +206,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-
-/* .map-container {
-  height: 1000px !important;
-} */
-
-/* .has-search .form-control {
-  padding-left: 2.375rem;
-  padding-right: 2.375rem;
-}
-
-.has-search .form-control-feedback {
-  position: absolute;
-  z-index: 2;
-  display: block;
-  width: 2.375rem;
-  height: 2.375rem;
-  line-height: 2.375rem;
-  text-align: center;
-  pointer-events: none;
-  color: #aaa;
-} */
