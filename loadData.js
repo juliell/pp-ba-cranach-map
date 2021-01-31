@@ -234,7 +234,7 @@ function search() {
       initMap();
       clusters();
       addData(filteredResult);
-      
+
 
       $('.paintingMarker').click((e) => {
         markerLocation = JSON.parse(e.currentTarget.dataset.location);
@@ -248,36 +248,41 @@ function search() {
   }
 }
 
-// function datedFilter(year0, year1) {
-//   const filteredResult = { ...paintingsGeoJSON };
-//   //filteredResult.features = paintingsGeoJSON.features.filter((elem) => elem.properties.dated.includes(year0 || year1));
+function datedFilter(year0, year1) {
+  const filteredResult = { ...paintingsGeoJSON };
+  //filteredResult.features = paintingsGeoJSON.features.filter((elem) => elem.properties.dated.includes(year0 || year1));
 
-//   let list = '';
-//   paintingsGeoJSON.features.forEach((item) => {
-//     if (year0 <= item.properties.dating[1] && year1 <= item.properties.dating[2]) list += item;
-//   });
-//   console.log(list);
+  filteredResult.features = paintingsGeoJSON.features.filter((item) => {
+    return year0 <= item.properties.dating[0] && year1 >= item.properties.dating[1];
+  });
 
+  let resultListHTML = '';
+  filteredResult.features.forEach((result) => {
+    resultListHTML += renderCard(result, s = 1);
+  });
 
-//   // let resultListHTML = '';
-//   // filteredResult.features.forEach((result) => {
-//   //   resultListHTML += renderCard(result, s = 1);
-//   // });
+  if (resultListHTML === '') {
+    $('.searchResults').html(`<div class="container mp-0">
+      <p>Die Suche nach '${searchString}' ergab kein Ergebnis.</p></div>`);
+    $('#countResults').html(filteredResult.features.length);
+  } else {
+    $('.searchResults').html(resultListHTML);
+    $('#countResults').html(filteredResult.features.length);
+    $('.resultContainer').attr('style', 'display: block !important');
+    initMap();
+    clusters();
+    addData(filteredResult);
 
-//   // $('.searchResults').html(resultListHTML);
-//   initMap();
-//   clusters();
-//   addData(filteredResult);
-
-//   $('.paintingMarker').click((e) => {
-//     markerLocation = JSON.parse(e.currentTarget.dataset.location);
-//     map.flyTo({
-//       center: markerLocation,
-//       zoom: 9,
-//       speed: 0.6,
-//     });
-//   });
-// }
+    $('.paintingMarker').click((e) => {
+      markerLocation = JSON.parse(e.currentTarget.dataset.location);
+      map.flyTo({
+        center: markerLocation,
+        zoom: 9,
+        speed: 0.6,
+      });
+    });
+  }
+}
 
 function addPopupCluster(e, features, clusterId, clusterSource) {
   const pointCount = features[0].properties.point_count;
