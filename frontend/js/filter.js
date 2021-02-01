@@ -59,7 +59,7 @@ function renderCard(searchResult, s) {
 }
 
 function renderError(message) {
-    $('.searchResults').html(`<div class="container mp-0" style="font-size: 16px"><p>${message}</p></div>`);
+    $('.searchResults').html(`<div class="container mp-0" style="font-size: 14px"><p>${message}</p></div>`);
     $('#countResults').html(0);
     $('.resultContainer').attr('style', 'display: block !important');
 }
@@ -82,7 +82,11 @@ function datedFilter(year0, year1) {
     filteredResult.features = paintingsGeoJSON.features.filter((item) => {
         return year0 <= item.properties.dating[0] && year1 >= item.properties.dating[1];
     });
-    renderResults(filteredResult);
+
+    const filteredResultSort = { ...filteredResult };
+    filteredResultSort.features = filteredResult.features.sort((a, b) => a.properties.dating[0] - b.properties.dating[0]);
+    console.log(filteredResultSort);
+    renderResults(filteredResultSort);
 }
 
 function renderResults(filteredResult) {
@@ -97,8 +101,8 @@ function renderResults(filteredResult) {
         $('.searchResults').html(resultListHTML);
         $('#countResults').html(filteredResult.features.length);
         $('.resultContainer').attr('style', 'display: block !important');
+        $('#hideShowContent').show();
         initMap();
-        console.log('called from renderResult');
         clusters();
         addData(filteredResult);
         
