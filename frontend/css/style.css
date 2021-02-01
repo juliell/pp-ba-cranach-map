@@ -11,31 +11,15 @@ body {
   padding: 0px;
 }
 
-.full-height {
-  height: 100%
-}
-
-.flex-fill {
-  flex: 1 1 auto;
-}
-
-#search-tab, #dated-tab {
-  font-size: 14px;
-}
-::placeholder {
-  color:  #888e !important;
-  font-size: 14px;
-}
-/* .container-fluid .main-container{
-  overflow: hidden;
-  }
-   */
+/* styling for map*/
 
 .map {
   position: absolut;
   top: 0;
   bottom: 0;
 }
+
+/*styling for popups and content*/
 
 .mapboxgl-popup-anchor-bottom {
   max-width: 500px !important;
@@ -53,7 +37,7 @@ body {
   overflow-x: hidden;
   width: 300px;
   height: 200px;
-  padding: 4px 4px 4px 4px
+  padding: 4px 4px 4px 4px;
 }
 
 .mapboxgl-popup-content img {
@@ -85,15 +69,7 @@ body {
   margin-bottom: 3px;
 }
 
-#hideShowContent {
-  display: none;
-  width: 25px;
-  padding-left: 22px;
-  position: absolute;
-  top: 28px;
-  left: 400px;
-  z-index: 2;
-}
+/* styling for navbar*/
 
 .overlaybox {
   position: absolute;
@@ -114,14 +90,106 @@ body {
   border-radius: 0.25rem;
 }
 
-.searchBar {
-  margin-bottom: 0px;
-  padding: 8px;
+#tabList {
+  width: 400px;
 }
 
-.yearBar {
-  margin-bottom: 0px;
-  padding: 8px;
+/* styling for searchbar and filter*/
+
+.row-searchbar, .row-datedFilter {
+  height: 50px;
+  padding: initial;
+  width: 100%;
+  margin-left: 0px !important;
+}
+
+.has-searchbar, .has-filterbar {
+  padding-top: 8px !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.filter-separatorblock {
+  border-radius: 0 !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+/*styling for switch*/
+
+.btn-switch {
+  height: 60px;
+  background-color: #6b88ff !important;
+  padding-left: 3px !important;
+  padding-right: 3px !important;
+  width: 25px;
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}
+
+.leftArrow {
+  display: block;
+  color: white;
+}
+
+.rightArrow {
+  color: white;
+  display: none;
+}
+
+/* styling for result container*/
+
+.resultContainer {
+  margin-left: 8px;
+  position: relative;
+  top: 120px;
+  width: 400px;
+  width: 420px;
+  min-height: 8px;
+  max-height: 100%;
+  display: none !important;
+  background-color: white;
+  z-index: 20;
+}
+
+.resultContainer-header {
+  height: 25px;
+  font-size: 12px;
+  padding: 2px 8px 2px 8px !important;
+}
+
+.resultContainer-body {
+  padding: 8px !important;
+  overflow-y: auto ;
+  max-height: 650px !important;
+}
+
+/* styling for scrollbar */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+#hideShowContent {
+  display: none;
+  width: 25px;
+  padding-left: 22px;
+  position: absolute;
+  top: 28px;
+  left: 400px;
+  z-index: 2;
 }
 
 .searchResults {
@@ -158,19 +226,6 @@ body {
   color: black;
 }
 
-.resultContainer {
-  margin-left: 8px;
-  position: relative;
-  top: 120px;
-  width: 400px;
-  width: 420px;
-  min-height: 8px;
-  max-height: 100%;
-  display: none !important;
-  background-color: white;
-  z-index: 20;
-}
-
 .col-md-5 .img {
   height: 100%;
   width: auto;
@@ -196,26 +251,19 @@ body {
   font-size: 12px;
 }
 
-/* width */
-
-::-webkit-scrollbar {
-  width: 8px;
+.full-height {
+  height: 100%
 }
 
-/* Track */
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
+.flex-fill {
+  flex: 1 1 auto;
 }
 
-/* Handle */
-
-::-webkit-scrollbar-thumb {
-  background: #888;
+#searchTab, #datedTab {
+  font-size: 15px;
 }
 
-/* Handle on hover */
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+::placeholder {
+  color: #888e !important;
+  font-size: 14px;
 }

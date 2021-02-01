@@ -21,7 +21,7 @@
     <div class="flex-fill">
       <div id="map" class="full-height">
         <div class="container overlaybox">
-          <ul class="nav nav-tabs" id="firstTab" role="tablist" style="width: 400px;">
+          <ul class="nav nav-tabs" id="tabList" role="tablist">
             <li class="nav-item" role="presentation">
               <a class="nav-link active" id="searchTab" data-bs-toggle="tab" href="#home" role="tab"
                 aria-controls="home" aria-selected="true">Suche</a>
@@ -33,11 +33,8 @@
           </ul>
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-              <div class="row" style="height: 50px;padding: initial;width: 100%;margin-left: 0px;">
-                <div class="input-group mb-3 searchBar" style="
-                margin-bottom: 0px !important;
-                padding-left: 0px !important;
-                padding-right: 0px !important;">
+              <div class="row row-searchbar">
+                <div class="input-group mb-3 has-searchbar">
                   <input id="searchInput" type="text" class="form-control" placeholder="Suchen">
                   <div class="input-group-append">
                     <button class="btn-resetSearch btn btn-outline-secondary" type="button">
@@ -53,13 +50,11 @@
               </div>
             </div>
             <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-              <div class="row" style="height: 50px;padding: initial;width: 100%;margin-left: 0px;">
-                <div class="input-group mb-3 yearBar"
-                  style=" margin-bottom: 0px !important; padding-left: 0px !important; padding-right: 0px !important;">
+              <div class="row row-datedFilter">
+                <div class="input-group mb-3 has-filterbar">
                   <input type="number" id="year0Input" class="form-control" placeholder="Jahr"
                     aria-label="Datierungsbeginn">
-                  <span class="input-group-text"
-                    style="border-radius: 0; border-left: none; border-right: none;">-</span>
+                  <span class="input-group-text filter-separatorblock">-</span>
                   <input type="number" id="year1Input" class="form-control" placeholder="Jahr"
                     aria-label="Datierungsende">
                   <div class="input-group-append">
@@ -78,53 +73,27 @@
           </div>
         </div>
         <div id="hideShowContent" class="container">
-          <button class="btn btn-light" type="button" style="
-          height: 60px; background-color: #6b88ff;
-          padding-left: 3px;
-          padding-right: 3px; width: 25px;
-          border-bottom-left-radius: 0 !important; border-top-left-radius: 0">
-            <span class="bi bi-chevron-left hideArrow" style="display: block; color: white;"></span>
-            <span class="bi bi-chevron-right showArrow" style="display: none; color: white;"></span>
+          <button class="btn btn-light btn-switch" type="button">
+            <span class="bi bi-chevron-left leftArrow"></span>
+            <span class="bi bi-chevron-right rightArrow"></span>
           </button>
         </div>
         <div class="card resultContainer">
-          <div class="card-header" style="
-          height: 25px;
-          font-size: 12px;
-          padding-left: 8px;
-          padding-top: 2px;
-          padding-bottom: 2px;
-          padding-right: 8px;">
+          <div class="card-header resultContainer-header">
             <label id="countResults" text="Zahl"></label> Ergebnisse gefunden
           </div>
-          <div class="card-body" style="padding: 8px; overflow-y: auto; max-height: 700px;">
+          <div class="card-body resultContainer-body">
             <div class="searchResults"></div>
           </div>
         </div>
-
-
-        <!-- <div class="container p-0" style="margin-left: 8px; position: relative; top: 120px; width: 400px; width: 420px; min-height: 8px; max-height: 100%; display: block; background-color: white;">
-           -->
       </div>
     </div>
-
   </div>
-  </div>
-
-  <!-- from cardSearch <p class="card-text search"><small class="text-muted">
-    <a target="_blank" href="http://www.lucascranach.org/${searchResult.inventoryNumber}">mehr Infos</a></small></p>
-  -->
-
-  <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
     integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
     integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
     crossorigin="anonymous"></script>
-
 </body>
-
 </html>

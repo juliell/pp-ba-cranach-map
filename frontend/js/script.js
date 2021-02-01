@@ -85,14 +85,14 @@ $(document).ready(async () => {
   $('#hideShowContent').click(() => {
     if ($('.overlaybox').is(":visible")) {
       $('#hideShowContent').attr('style', 'left: 8px; display: block;');
-      $('.hideArrow').hide();
-      $('.showArrow').show();
+      $('.leftArrow').hide();
+      $('.rightArrow').show();
       $('.overlaybox').hide();
       $('.resultContainer').hide();
     } else {
       $('#hideShowContent').attr('style', 'left: 400px; display: block;');
-      $('.hideArrow').show();
-      $('.showArrow').hide();
+      $('.leftArrow').show();
+      $('.rightArrow').hide();
       $('.overlaybox').show();
       $('.resultContainer').attr('style', 'display: block !important;');
     }
