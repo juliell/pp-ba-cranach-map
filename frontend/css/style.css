@@ -11,6 +11,14 @@ body {
   padding: 0px;
 }
 
+.full-height {
+  height: 100%
+}
+
+.flex-fill {
+  flex: 1 1 auto;
+}
+
 /* styling for map*/
 
 .map {
@@ -19,7 +27,23 @@ body {
   bottom: 0;
 }
 
-/*styling for popups and content*/
+/* styling for images and icons*/
+
+.img-center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.infoIcon, .markerIcon {
+  font-size: 16px;
+  color: #6b88ff;
+}
+
+/*styling for popups*/
 
 .mapboxgl-popup-anchor-bottom {
   max-width: 500px !important;
@@ -53,20 +77,47 @@ body {
   margin-bottom: 5px;
 }
 
+/* styling for popup Card*/
+
+.row-popupCard {
+  height: 150px !important;
+  width: 280px !important;
+  margin-bottom: 8px !important;
+}
+
+.col-7-popupCard {
+  height: 100% !important;
+}
+
+.body-popupCard {
+  margin-top: 5px;
+}
+
+.title-popupCard {
+  font-size: 15px;
+  margin-bottom: 5px !important;
+}
+
+.col-popupCard-paintingsMarker {
+  padding-left: 5px;
+}
+
 .popupCard {
   width: 280px;
   max-height: 150px;
   margin-bottom: 5px;
 }
 
-.popupTitle {
-  font-size: 14px;
-  margin-bottom: 5px !important;
-}
-
-.popupText {
+/* .popupCity {
+  font-size: 16px;
+  padding-left: 5px;
+  padding-top: 2px;
+  margin-bottom: 5px;
+} */
+.text-popupCard {
   font-size: 11px;
   margin-bottom: 3px;
+  line-height: 1.5;
 }
 
 /* styling for navbar*/
@@ -94,6 +145,14 @@ body {
   width: 400px;
 }
 
+.nav-link {
+  color: black;
+}
+
+#searchTab, #datedTab {
+  font-size: 15px;
+}
+
 /* styling for searchbar and filter*/
 
 .row-searchbar, .row-datedFilter {
@@ -115,7 +174,12 @@ body {
   border-right: none !important;
 }
 
-/*styling for switch*/
+::placeholder {
+  color: #888e !important;
+  font-size: 14px;
+}
+
+/* styling for buttons*/
 
 .btn-switch {
   height: 60px;
@@ -125,82 +189,6 @@ body {
   width: 25px;
   border-bottom-left-radius: 0 !important;
   border-top-left-radius: 0 !important;
-}
-
-.leftArrow {
-  display: block;
-  color: white;
-}
-
-.rightArrow {
-  color: white;
-  display: none;
-}
-
-/* styling for result container*/
-
-.resultContainer {
-  margin-left: 8px;
-  position: relative;
-  top: 120px;
-  width: 400px;
-  width: 420px;
-  min-height: 8px;
-  max-height: 100%;
-  display: none !important;
-  background-color: white;
-  z-index: 20;
-}
-
-.resultContainer-header {
-  height: 25px;
-  font-size: 12px;
-  padding: 2px 8px 2px 8px !important;
-}
-
-.resultContainer-body {
-  padding: 8px !important;
-  overflow-y: auto ;
-  max-height: 650px !important;
-}
-
-/* styling for scrollbar */
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-#hideShowContent {
-  display: none;
-  width: 25px;
-  padding-left: 22px;
-  position: absolute;
-  top: 28px;
-  left: 400px;
-  z-index: 2;
-}
-
-.searchResults {
-  overflow-y: auto;
-  overflow-x: hidden;
-  max-height: 85%;
-  width: 400px;
-  background: white;
-  z-index: 200;
-  display: block;
-  background-color: white;
 }
 
 .btn-outline-secondary {
@@ -222,48 +210,111 @@ body {
   display: none !important;
 }
 
-.nav-link {
-  color: black;
+/*styling for switch*/
+
+#hideShowContent {
+  display: none;
+  width: 25px;
+  padding-left: 22px;
+  position: absolute;
+  top: 28px;
+  left: 400px;
+  z-index: 2;
 }
 
-.col-md-5 .img {
+.leftArrow {
+  display: block;
+  color: white;
+}
+
+.rightArrow {
+  color: white;
+  display: none;
+}
+
+/* styling for result container*/
+
+.resultContainer {
+  margin-left: 8px;
+  margin-right: 0% !important;
+  position: absolute !important;
+  left: 0px;
+  top: 0px;
+  top: 120px;
+  width: 420px;
+  max-width: 420px !important;
+  min-height: 8px;
+  max-height: 100%;
+  display: none !important;
+  z-index: 20;
+}
+
+.resultContainer-header {
+  height: 25px;
+  font-size: 12px;
+  padding: 2px 8px 2px 8px !important;
+}
+
+.resultContainer-body {
+  padding: 8px !important;
+  overflow-y: auto;
+  max-height: 650px !important;
+}
+
+.searchResults {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 85%;
+  width: 400px;
+  background: white;
+  z-index: 200;
+  display: block;
+  background-color: white;
+}
+
+/* styling for Card for results from search and filter*/
+
+.searchResult-renderCard {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 8px !important;
+}
+
+#row-searchResult, #col-5-searchResult, #col-7-searchResult .body-searchResult {
+  height: inherit;
+}
+
+.card-text.searchResult {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.card-title.searchResult {
+  font-size: 17px;
+}
+
+.col-5-searchResult, .col-5-popupCard {
   height: 100%;
   width: auto;
   object-fit: contain;
   margin-left: 0px;
 }
 
-.center-block {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  height: 100%;
-  width: 100%;
-  object-fit: contain;
+
+/* styling for scrollbar */
+
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-.paintingIcon {
-  font-size: 16px;
-  color: #6b88ff;
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
 }
 
-.card-text .search {
-  font-size: 12px;
+::-webkit-scrollbar-thumb {
+  background: #888;
 }
 
-.full-height {
-  height: 100%
-}
-
-.flex-fill {
-  flex: 1 1 auto;
-}
-
-#searchTab, #datedTab {
-  font-size: 15px;
-}
-
-::placeholder {
-  color: #888e !important;
-  font-size: 14px;
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

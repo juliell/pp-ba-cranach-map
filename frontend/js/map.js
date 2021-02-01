@@ -112,7 +112,7 @@ function setMapBounds(filteredGeoJSON) {
 
     map.fitBounds(lngLatBounds, {
         padding: {
-            top: 60, bottom: 60, left: 500, right: 60,
+            top: 200, bottom: 200, left: 600, right: 200,
         },
     });
 }
@@ -186,13 +186,6 @@ function clickClusters() {
                     speed: 0.6,
                 });
             },
-            // (err, zoom) => {
-            //   if (err) return;
-            //   map.easeTo({
-            //     center: features[0].geometry.coordinates,
-            //     zoom: (zoom === 18 ? 6 : zoom),
-            //   });
-            // },
         );
         addPopupCluster(e, features, clusterId, clusterSource);
     });

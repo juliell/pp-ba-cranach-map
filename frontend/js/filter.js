@@ -4,16 +4,16 @@ function renderCard(searchResult, s) {
     const paintingCoordinates = JSON.stringify(searchResult.geometry.coordinates);
     if (s === 1) {
         return `
-        <div class="card mb-3" style="width: 100%; height: 200px; margin-bottom: 8px !important;">
-            <div class="row g-0 m-0" style="height: inherit">
-                <div class="col-md-5 img p-0" style="height: inherit;">
-                    <img class="center-block" src="${paintingURL}" alt="kein Bild verfügbar">
+        <div class="card mb-3 searchResult-renderCard">
+            <div class="row g-0 m-0" id="row-searchResult">
+                <div class="col-md-5 p-0" id="col-5-searchResult">
+                    <img class="img-center-block" src="${paintingURL}" alt="kein Bild verfügbar">
                 </div>
-                <div class="col-md-7 p-0" style="height: inherit">
-                    <div class="card-body p-2" style="height: inherit">
-                        <h5 class="card-title search" style="font-size: 18px;"
-                        data-toggle="tooltip" data-placement="top" title="${searchResult.properties.titles}">${paintingTitle}</h5>
-                        <p class="card-text search" style="margin-bottom: 5px; font-size: 12px;">
+                <div class="col-md-7 p-0 col-7-searchResult">
+                    <div class="card-body body-searchResult p-2">
+                        <h5 class="card-title searchResult" data-toggle="tooltip" data-placement="top"
+                        title="${searchResult.properties.titles}">${paintingTitle}</h5>
+                        <p class="card-text searchResult">
                         ${searchResult.properties.dated}<br>
                         ${searchResult.properties.repository}<br>
                         ${searchResult.properties.location}, ${searchResult.properties.country}</p>
@@ -21,12 +21,12 @@ function renderCard(searchResult, s) {
                             <div class="col-md-2">
                                 <button class="btn p-0" type="button">
                                     <a target="_blank" href="http://www.lucascranach.org/${searchResult.properties.inventoryNumber}">  
-                                    <i class="bi bi-info-circle-fill paintingIcon"></i></a>
+                                    <i class="bi bi-info-circle-fill infoIcon"></i></a>
                                 </button>
                             </div>
-                            <div class="col-md-2" style="padding-left: 5px;">
+                            <div class="col-md-2 col-popupCard-paintingsMarker">
                                 <button class="btn p-0 paintingMarker" type="button" data-location="${paintingCoordinates}">
-                                    <i class="bi bi-geo-alt-fill paintingIcon"></i></a>
+                                    <i class="bi bi-geo-alt-fill markerIcon"></i></a>
                                 </button>
                             </div>
                         </div>
@@ -36,20 +36,21 @@ function renderCard(searchResult, s) {
         </div>`;
     } return `
         <div class="card popupCard">
-            <div class="row g-0 m-0" style="height: 150px; width: 280px; margin-bottom: 8px !important;">
-                <div class="col-md-5 img p-0" style="height: 100%;">
-                     <img class="center-block" src="${paintingURL}" alt="kein Bild verfügbar">
+            <div class="row g-0 m-0 row-popupCard">
+                <div class="col-md-5 col-5-popupCard p-0">
+                     <img class="img-center-block" src="${paintingURL}" alt="kein Bild verfügbar">
                 </div>
-                <div class="col-md-7 p-0" style="height: 100%;">
-                    <div class="card-body p-0" style="margin-top: 5px">
-                        <h5 class="card-title popupTitle" data-toggle="tooltip" data-placement="top" title="${searchResult.properties.titles}">${paintingTitle}</h5>
-                            <p class="card-text popupText">${searchResult.properties.dated}<br>
+                <div class="col-md-7 p-0 col-7-popupCard">
+                    <div class="card-body p-0 body-popupCard">
+                        <h5 class="card-title title-popupCard" data-toggle="tooltip" data-placement="top"
+                            title="${searchResult.properties.titles}">${paintingTitle}</h5>
+                            <p class="card-text text-popupCard">${searchResult.properties.dated}<br>
                             ${searchResult.properties.repository}<br>
                             ${searchResult.properties.location}, ${searchResult.properties.country}</p>
                             <div class="col-md-2 p-0">
                                 <button class="btn p-0" type="button">
                                     <a target="_blank" href="http://www.lucascranach.org/${searchResult.properties.inventoryNumber}">  
-                                    <i class="bi bi-info-circle-fill paintingIcon"></i></a>
+                                    <i class="bi bi-info-circle-fill infoIcon"></i></a>
                                 </button>
                             </div>
                         </div>
@@ -74,6 +75,8 @@ function search() {
                 || elem.properties.repository.toLowerCase().includes(searchString);
         });
         renderResults(filteredResult);
+    } else {
+        renderError('Der Suchbegriff muss aus mindestens 3 Zeichen bestehen.')
     }
 }
 

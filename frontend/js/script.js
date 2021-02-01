@@ -28,6 +28,10 @@ $(document).ready(async () => {
     }
   });
 
+  $('.btn-clickSearch').click(() => {
+    search();
+  });
+
   $('.btn-resetSearch').click(() => {
     $('.btn-resetSearch').attr('style', 'display: none !important');
     $('#searchInput').val('');
@@ -68,8 +72,28 @@ $(document).ready(async () => {
     }
   });
 
-  $('.btn-clickSearch').click(() => {
-    search();
+  $('#year0Input').on('keyup', (e) => {
+    if (e.which === 13) {
+      const year0 = $('#year0Input').val() || 0;
+      const year1 = $('#year1Input').val() || 9999;
+      if (year1 >= year0) {
+        datedFilter(year0, year1);
+      } else {
+        renderError('Das Startjahr muss vor dem Endjahr liegen.');
+      }
+    }
+  });
+
+  $('#year1Input').on('keyup', (e) => {
+    if (e.which === 13) {
+      const year0 = $('#year0Input').val() || 0;
+      const year1 = $('#year1Input').val() || 9999;
+      if (year1 >= year0) {
+        datedFilter(year0, year1);
+      } else {
+        renderError('Das Startjahr muss vor dem Endjahr liegen.');
+      }
+    }
   });
 
   $('.btn-searchDated').click(() => {
@@ -97,30 +121,5 @@ $(document).ready(async () => {
       $('.resultContainer').attr('style', 'display: block !important;');
     }
   })
-
-
-  $('#year0Input').on('keyup', (e) => {
-    if (e.which === 13) {
-      const year0 = $('#year0Input').val() || 0;
-      const year1 = $('#year1Input').val() || 9999;
-      if (year1 > year0) {
-        datedFilter(year0, year1);
-      } else {
-        renderError('Das Startjahr muss vor dem Endjahr liegen.');
-      }
-    }
-  });
-
-  $('#year1Input').on('keyup', (e) => {
-    if (e.which === 13) {
-      const year0 = $('#year0Input').val() || 0;
-      const year1 = $('#year1Input').val() || 9999;
-      if (year1 > year0) {
-        datedFilter(year0, year1);
-      } else {
-        renderError('Das Startjahr muss vor dem Endjahr liegen.');
-      }
-    }
-  });
 
 });
