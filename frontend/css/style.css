@@ -272,6 +272,10 @@ body {
   background-color: white;
 }
 
+.error-message {
+  font-size: 14px;
+}
+
 /* styling for Card for results from search and filter*/
 
 .searchResult-renderCard {

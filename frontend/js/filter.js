@@ -1,9 +1,14 @@
-function renderCard(searchResult, s) {
-    const paintingURL = searchResult.properties.image !== '' ? searchResult.properties.image : 'No-image-available.png';
-    const paintingTitle = searchResult.properties.titles.length > 41 ? `${searchResult.properties.titles.substring(0, 40)}...` : searchResult.properties.titles;
-    const paintingCoordinates = JSON.stringify(searchResult.geometry.coordinates);
-    if (s === 1) {
-        return `
+/* reason: filter.js is used by script.js via $.getScript() */
+/* eslint-disable no-unused-vars */
+/* reason: jQuery is loaded via html script tag */
+/* eslint-disable no-undef */
+function renderCard(searchResult, isSearch) {
+  const paintingURL = searchResult.properties.image !== '' ? searchResult.properties.image : 'No-image-available.png';
+  const paintingTitle = searchResult.properties.titles;
+  const paintingTitleShort = paintingTitle.length > 41 ? `${paintingTitle.substring(0, 40)}...` : paintingTitle;
+  const paintingCoordinates = JSON.stringify(searchResult.geometry.coordinates);
+  if (isSearch) {
+    return `
         <div class="card mb-3 searchResult-renderCard">
             <div class="row g-0 m-0" id="row-searchResult">
                 <div class="col-md-5 p-0" id="col-5-searchResult">
@@ -12,7 +17,7 @@ function renderCard(searchResult, s) {
                 <div class="col-md-7 p-0 col-7-searchResult">
                     <div class="card-body body-searchResult p-2">
                         <h5 class="card-title searchResult" data-toggle="tooltip" data-placement="top"
-                        title="${searchResult.properties.titles}">${paintingTitle}</h5>
+                        title="${paintingTitle}">${paintingTitleShort}</h5>
                         <p class="card-text searchResult">
                         ${searchResult.properties.dated}<br>
                         ${searchResult.properties.repository}<br>
@@ -34,7 +39,7 @@ function renderCard(searchResult, s) {
                 </div>
             </div>
         </div>`;
-    } return `
+  } return `
         <div class="card popupCard">
             <div class="row g-0 m-0 row-popupCard">
                 <div class="col-md-5 col-5-popupCard p-0">
@@ -43,7 +48,7 @@ function renderCard(searchResult, s) {
                 <div class="col-md-7 p-0 col-7-popupCard">
                     <div class="card-body p-0 body-popupCard">
                         <h5 class="card-title title-popupCard" data-toggle="tooltip" data-placement="top"
-                            title="${searchResult.properties.titles}">${paintingTitle}</h5>
+                            title="${paintingTitle}">${paintingTitleShort}</h5>
                             <p class="card-text text-popupCard">${searchResult.properties.dated}<br>
                             ${searchResult.properties.repository}<br>
                             ${searchResult.properties.location}, ${searchResult.properties.country}</p>
@@ -60,62 +65,81 @@ function renderCard(searchResult, s) {
 }
 
 function renderError(message) {
-    $('.searchResults').html(`<div class="container mp-0" style="font-size: 14px"><p>${message}</p></div>`);
-    $('#countResults').html(0);
-    $('.resultContainer').attr('style', 'display: block !important');
+  $('.searchResults').html(`<div class="container mp-0 error-message"><p>${message}</p></div>`);
+  $('#countResults').html(0);
+  $('.resultContainer').attr('style', 'display: block !important');
 }
 
 function search() {
-    if ($('#searchInput').val().length > 2) {
-        const searchString = searchInput.value.toLowerCase();
-        const filteredResult = { ...paintingsGeoJSON };
-        filteredResult.features = paintingsGeoJSON.features.filter((elem) => {
-            return elem.properties.titles.toLowerCase().includes(searchString)
-                || elem.properties.location.toLowerCase().includes(searchString)
-                || elem.properties.repository.toLowerCase().includes(searchString);
-        });
-        renderResults(filteredResult);
-    } else {
-        renderError('Der Suchbegriff muss aus mindestens 3 Zeichen bestehen.')
-    }
+  if ($('#searchInput').val().length > 2) {
+    const searchString = searchInput.value.toLowerCase();
+    const filteredResult = { ...paintingsGeoJSON };
+    filteredResult.features = paintingsGeoJSON.features.filter((elem) => elem.properties.titles.toLowerCase().includes(searchString)
+        || elem.properties.location.toLowerCase().includes(searchString)
+        || elem.properties.repository.toLowerCase().includes(searchString));
+    renderResults(filteredResult);
+  } else {
+    renderError('Der Suchbegriff muss aus mindestens 3 Zeichen bestehen.');
+  }
 }
 
-function datedFilter(year0, year1) {
-    const filteredResult = { ...paintingsGeoJSON };
-    filteredResult.features = paintingsGeoJSON.features.filter((item) => {
-        return year0 <= item.properties.dating[0] && year1 >= item.properties.dating[1];
-    });
-
-    const filteredResultSort = { ...filteredResult };
-    filteredResultSort.features = filteredResult.features.sort((a, b) => a.properties.dating[0] - b.properties.dating[0]);
-    console.log(filteredResultSort);
-    renderResults(filteredResultSort);
+function filterYear(year0, year1) {
+  const filteredResult = { ...paintingsGeoJSON };
+  filteredResult.features = paintingsGeoJSON.features.filter((item) => year0 <= item.properties.dating[0] && year1 >= item.properties.dating[1]);
+  const filteredResultSort = { ...filteredResult };
+  filteredResultSort.features = filteredResult.features.sort((a, b) => a.properties.dating[0] - b.properties.dating[0]);
+  renderResults(filteredResultSort);
 }
 
 function renderResults(filteredResult) {
-    let resultListHTML = '';
-    filteredResult.features.forEach((result) => {
-        resultListHTML += renderCard(result, s = 1);
-    });
+  let resultListHTML = '';
+  filteredResult.features.forEach((result) => {
+    resultListHTML += renderCard(result, true);
+  });
 
-    if (resultListHTML === '') {
-        renderError(`Die Suche ergab kein Ergebnis.`);
+  if (resultListHTML === '') {
+    renderError('Die Suche ergab kein Ergebnis.');
+  } else {
+    $('.searchResults').html(resultListHTML);
+    $('#countResults').html(filteredResult.features.length);
+    $('.resultContainer').attr('style', 'display: block !important');
+    $('#hideShowContent').show();
+    initMap();
+    addClusterListener();
+    addMapData(filteredResult);
+
+    $('.paintingMarker').click((e) => {
+      markerLocation = JSON.parse(e.currentTarget.dataset.location);
+      map.flyTo({
+        center: markerLocation,
+        zoom: 9,
+        speed: 0.6,
+      });
+    });
+  }
+}
+
+function dateListener(e, inputField) {
+  if (inputField.val().length > 0) {
+    $('.btn-resetDated').attr('style', 'display: inline !important');
+  } else $('.btn-resetDated').attr('style', 'display: none !important');
+  if (e.which === 13) {
+    const year0 = $('#year0Input').val() || 0;
+    const year1 = $('#year1Input').val() || 9999;
+    if (year1 > year0) {
+      filterYear(year0, year1);
     } else {
-        $('.searchResults').html(resultListHTML);
-        $('#countResults').html(filteredResult.features.length);
-        $('.resultContainer').attr('style', 'display: block !important');
-        $('#hideShowContent').show();
-        initMap();
-        clusters();
-        addData(filteredResult);
-        
-        $('.paintingMarker').click((e) => {
-            markerLocation = JSON.parse(e.currentTarget.dataset.location);
-            map.flyTo({
-                center: markerLocation,
-                zoom: 9,
-                speed: 0.6,
-            });
-        });
+      renderError('Das Startjahr muss vor dem Endjahr liegen.');
     }
+  }
+}
+
+function resetFilter() {
+  $('.searchResults').html('');
+  $('.resultContainer').attr('style', 'display: none !important');
+  $('#countResults').html('');
+  $('#hideShowContent').hide();
+  initMap();
+  addClusterListener();
+  addMapData();
 }
