@@ -16,9 +16,9 @@ function renderCard(searchResult, isSearch) {
                 </div>
                 <div class="col-md-7 p-0 content-column-search-result">
                     <div class="card-body body-search-result p-2">
-                        <h5 class="card-title search-result" data-toggle="tooltip" data-placement="top"
+                        <h5 class="card-title search-result-title" data-toggle="tooltip" data-placement="top"
                         title="${paintingTitle}">${paintingTitleShort}</h5>
-                        <p class="card-text search-result">
+                        <p class="card-text search-result-text">
                         ${searchResult.properties.dated}<br>
                         ${searchResult.properties.repository}<br>
                         ${searchResult.properties.location}, ${searchResult.properties.country}</p>

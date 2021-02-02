@@ -288,12 +288,12 @@ body {
   height: inherit;
 }
 
-.card-text.search-result {
+.search-result-text {
   font-size: 12px;
   margin-bottom: 5px;
 }
 
-.card-title.search-result {
+.search-result-title {
   font-size: 17px;
 }
 
