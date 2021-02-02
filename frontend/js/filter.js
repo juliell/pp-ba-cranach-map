@@ -9,16 +9,16 @@ function renderCard(searchResult, isSearch) {
   const paintingCoordinates = JSON.stringify(searchResult.geometry.coordinates);
   if (isSearch) {
     return `
-        <div class="card mb-3 searchResult-renderCard">
-            <div class="row g-0 m-0" id="row-searchResult">
-                <div class="col-md-5 p-0" id="col-5-searchResult">
+        <div class="card mb-3 search-result-card">
+            <div class="row g-0 m-0" id="rowSearchResult">
+                <div class="col-md-5 p-0" id="imageColumnSearchResult">
                     <img class="img-center-block" src="${paintingURL}" alt="kein Bild verfügbar">
                 </div>
-                <div class="col-md-7 p-0 col-7-searchResult">
-                    <div class="card-body body-searchResult p-2">
-                        <h5 class="card-title searchResult" data-toggle="tooltip" data-placement="top"
+                <div class="col-md-7 p-0 content-column-search-result">
+                    <div class="card-body body-search-result p-2">
+                        <h5 class="card-title search-result" data-toggle="tooltip" data-placement="top"
                         title="${paintingTitle}">${paintingTitleShort}</h5>
-                        <p class="card-text searchResult">
+                        <p class="card-text search-result">
                         ${searchResult.properties.dated}<br>
                         ${searchResult.properties.repository}<br>
                         ${searchResult.properties.location}, ${searchResult.properties.country}</p>
@@ -26,12 +26,12 @@ function renderCard(searchResult, isSearch) {
                             <div class="col-md-2">
                                 <button class="btn p-0" type="button">
                                     <a target="_blank" href="http://www.lucascranach.org/${searchResult.properties.inventoryNumber}">  
-                                    <i class="bi bi-info-circle-fill infoIcon"></i></a>
+                                    <i class="bi bi-info-circle-fill"></i></a>
                                 </button>
                             </div>
-                            <div class="col-md-2 col-popupCard-paintingsMarker">
-                                <button class="btn p-0 paintingMarker" type="button" data-location="${paintingCoordinates}">
-                                    <i class="bi bi-geo-alt-fill markerIcon"></i></a>
+                            <div class="col-md-2 btn-geo-icon-column">
+                                <button class="btn p-0 btn-geo-icon" type="button" data-location="${paintingCoordinates}">
+                                    <i class="bi bi-geo-alt-fill"></i></a>
                                 </button>
                             </div>
                         </div>
@@ -40,22 +40,22 @@ function renderCard(searchResult, isSearch) {
             </div>
         </div>`;
   } return `
-        <div class="card popupCard">
-            <div class="row g-0 m-0 row-popupCard">
-                <div class="col-md-5 col-5-popupCard p-0">
+        <div class="card popup-card">
+            <div class="row g-0 m-0 row-popup-card">
+                <div class="col-md-5 img-column-popup-card p-0">
                      <img class="img-center-block" src="${paintingURL}" alt="kein Bild verfügbar">
                 </div>
-                <div class="col-md-7 p-0 col-7-popupCard">
-                    <div class="card-body p-0 body-popupCard">
-                        <h5 class="card-title title-popupCard" data-toggle="tooltip" data-placement="top"
+                <div class="col-md-7 p-0 content-column-popup-card">
+                    <div class="card-body p-0 body-popup-card">
+                        <h5 class="card-title title-popup-card" data-toggle="tooltip" data-placement="top"
                             title="${paintingTitle}">${paintingTitleShort}</h5>
-                            <p class="card-text text-popupCard">${searchResult.properties.dated}<br>
+                            <p class="card-text text-popup-card">${searchResult.properties.dated}<br>
                             ${searchResult.properties.repository}<br>
                             ${searchResult.properties.location}, ${searchResult.properties.country}</p>
                             <div class="col-md-2 p-0">
                                 <button class="btn p-0" type="button">
                                     <a target="_blank" href="http://www.lucascranach.org/${searchResult.properties.inventoryNumber}">  
-                                    <i class="bi bi-info-circle-fill infoIcon"></i></a>
+                                    <i class="bi bi-info-circle-fill bi-info-circle-fill"></i></a>
                                 </button>
                             </div>
                         </div>
@@ -65,9 +65,9 @@ function renderCard(searchResult, isSearch) {
 }
 
 function renderError(message) {
-  $('.searchResults').html(`<div class="container mp-0 error-message"><p>${message}</p></div>`);
-  $('#countResults').html(0);
-  $('.resultContainer').attr('style', 'display: block !important');
+  $('.search-result').html(`<div class="container mp-0 error-message"><p>${message}</p></div>`);
+  $('#resultCount').html(0);
+  $('.result-container').attr('style', 'display: block !important');
 }
 
 function search() {
@@ -100,15 +100,15 @@ function renderResults(filteredResult) {
   if (resultListHTML === '') {
     renderError('Die Suche ergab kein Ergebnis.');
   } else {
-    $('.searchResults').html(resultListHTML);
-    $('#countResults').html(filteredResult.features.length);
-    $('.resultContainer').attr('style', 'display: block !important');
-    $('#hideShowContent').show();
+    $('.search-result').html(resultListHTML);
+    $('#resultCount').html(filteredResult.features.length);
+    $('.result-container').attr('style', 'display: block !important');
+    $('#toggle-result-visibility').show();
     initMap();
     addClusterListener();
     addMapData(filteredResult);
 
-    $('.paintingMarker').click((e) => {
+    $('.btn-geo-icon').click((e) => {
       markerLocation = JSON.parse(e.currentTarget.dataset.location);
       map.flyTo({
         center: markerLocation,
@@ -121,11 +121,11 @@ function renderResults(filteredResult) {
 
 function dateListener(e, inputField) {
   if (inputField.val().length > 0) {
-    $('.btn-resetDated').attr('style', 'display: inline !important');
-  } else $('.btn-resetDated').attr('style', 'display: none !important');
+    $('.btn-reset-year').attr('style', 'display: inline !important');
+  } else $('.btn-reset-year').attr('style', 'display: none !important');
   if (e.which === 13) {
-    const year0 = $('#year0Input').val() || 0;
-    const year1 = $('#year1Input').val() || 9999;
+    const year0 = $('#input-year-start').val() || 0;
+    const year1 = $('#input-year-end').val() || 9999;
     if (year1 > year0) {
       filterYear(year0, year1);
     } else {
@@ -135,10 +135,10 @@ function dateListener(e, inputField) {
 }
 
 function resetFilter() {
-  $('.searchResults').html('');
-  $('.resultContainer').attr('style', 'display: none !important');
-  $('#countResults').html('');
-  $('#hideShowContent').hide();
+  $('.search-result').html('');
+  $('.result-container').attr('style', 'display: none !important');
+  $('#resultCount').html('');
+  $('#toggle-result-visibility').hide();
   initMap();
   addClusterListener();
   addMapData();

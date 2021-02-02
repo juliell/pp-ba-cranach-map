@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Cranach Map</title>
-  <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <title>Cranach Karte</title>
   <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
-  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v0.10.1/mapbox-gl-language.js'></script>
   <link rel="stylesheet" type="text/css" href='css/style.css'>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v0.10.1/mapbox-gl-language.js'></script>
   <script src="js/script.js"></script>
 </head>
 
@@ -37,12 +37,12 @@
                 <div class="input-group mb-3 has-searchbar">
                   <input id="searchInput" type="text" class="form-control" placeholder="Titel oder Stadt">
                   <div class="input-group-append">
-                    <button class="btn-resetSearch btn btn-outline-secondary" type="button">
+                    <button class="btn-reset-search btn btn-outline-secondary" type="button">
                       <span class="bi bi-arrow-counterclockwise"></span>
                     </button>
                   </div>
                   <div class="input-group-append">
-                    <button class="btn-clickSearch btn btn-outline-secondary" type="button">
+                    <button class="btn-click-search btn btn-outline-secondary" type="button">
                       <span class="bi bi-search"></span>
                     </button>
                   </div>
@@ -50,20 +50,20 @@
               </div>
             </div>
             <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-              <div class="row row-datedFilter">
+              <div class="row row-year-filter">
                 <div class="input-group mb-3 has-filterbar">
-                  <input type="number" id="year0Input" class="form-control" placeholder="Jahr"
+                  <input type="number" id="input-year-start" class="form-control" placeholder="Jahr"
                     aria-label="Datierungsbeginn">
                   <span class="input-group-text filter-separatorblock">-</span>
-                  <input type="number" id="year1Input" class="form-control" placeholder="Jahr"
+                  <input type="number" id="input-year-end" class="form-control" placeholder="Jahr"
                     aria-label="Datierungsende">
                   <div class="input-group-append">
                     <div class="input-group-append">
-                      <button class="btn-resetDated btn btn-outline-secondary" type="button">
+                      <button class="btn-reset-year btn btn-outline-secondary" type="button">
                         <span class="bi bi-arrow-counterclockwise"></span>
                       </button>
                     </div>
-                    <button class="btn-searchDated btn btn-outline-secondary" type="button">
+                    <button class="btn-filter-year btn btn-outline-secondary" type="button">
                       <span class="bi bi-search"></span>
                     </button>
                   </div>
@@ -72,18 +72,18 @@
             </div>
           </div>
         </div>
-        <div id="hideShowContent" class="container">
+        <div id="toggle-result-visibility" class="container">
           <button class="btn btn-light btn-switch" type="button">
-            <span class="bi bi-chevron-left leftArrow"></span>
-            <span class="bi bi-chevron-right rightArrow"></span>
+            <span class="bi bi-chevron-left"></span>
+            <span class="bi bi-chevron-right"></span>
           </button>
         </div>
-        <div class="card resultContainer">
-          <div class="card-header resultContainer-header">
-            <label id="countResults" text="Zahl"></label> Ergebnisse gefunden
+        <div class="card result-container">
+          <div class="card-header result-container-header">
+            <label id="resultCount" text="Zahl"></label> Ergebnisse gefunden
           </div>
-          <div class="card-body resultContainer-body">
-            <div class="searchResults"></div>
+          <div class="card-body result-container-body">
+            <div class="search-result"></div>
           </div>
         </div>
       </div>

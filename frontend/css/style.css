@@ -38,7 +38,7 @@ body {
   object-fit: contain;
 }
 
-.infoIcon, .markerIcon {
+.bi-info-circle-fill, .bi-geo-alt-fill {
   font-size: 16px;
   color: #6b88ff;
 }
@@ -79,30 +79,30 @@ body {
 
 /* styling for popup Card*/
 
-.row-popupCard {
+.row-popup-card {
   height: 150px !important;
   width: 280px !important;
   margin-bottom: 8px !important;
 }
 
-.col-7-popupCard {
+.content-column-popup-card {
   height: 100% !important;
 }
 
-.body-popupCard {
+.body-popup-card {
   margin-top: 5px;
 }
 
-.title-popupCard {
+.title-popup-card {
   font-size: 15px;
   margin-bottom: 5px !important;
 }
 
-.col-popupCard-paintingsMarker {
+.btn-geo-icon-column {
   padding-left: 5px;
 }
 
-.popupCard {
+.popup-card {
   width: 280px;
   max-height: 150px;
   margin-bottom: 5px;
@@ -114,7 +114,7 @@ body {
   padding-top: 2px;
   margin-bottom: 5px;
 } */
-.text-popupCard {
+.text-popup-card {
   font-size: 11px;
   margin-bottom: 3px;
   line-height: 1.5;
@@ -155,7 +155,7 @@ body {
 
 /* styling for searchbar and filter*/
 
-.row-searchbar, .row-datedFilter {
+.row-searchbar, .row-year-filter {
   height: 50px;
   padding: initial;
   width: 100%;
@@ -200,11 +200,11 @@ body {
   background-color: #555 !important;
 }
 
-.btn-resetSearch {
+.btn-reset-search {
   display: none !important;
 }
 
-.btn-resetDated {
+.btn-reset-year {
   border-right: none !important;
   border-radius: 0px !important;
   display: none !important;
@@ -212,7 +212,7 @@ body {
 
 /*styling for switch*/
 
-#hideShowContent {
+#toggle-result-visibility {
   display: none;
   width: 25px;
   padding-left: 22px;
@@ -222,19 +222,19 @@ body {
   z-index: 2;
 }
 
-.leftArrow {
+.bi-chevron-left {
   display: block;
   color: white;
 }
 
-.rightArrow {
+.bi-chevron-right {
   color: white;
   display: none;
 }
 
 /* styling for result container*/
 
-.resultContainer {
+.result-container {
   margin-left: 8px;
   margin-right: 0% !important;
   position: absolute !important;
@@ -249,19 +249,19 @@ body {
   z-index: 20;
 }
 
-.resultContainer-header {
+.result-container-header {
   height: 25px;
   font-size: 12px;
   padding: 2px 8px 2px 8px !important;
 }
 
-.resultContainer-body {
+.result-container-body {
   padding: 8px !important;
   overflow-y: auto;
   max-height: 650px !important;
 }
 
-.searchResults {
+.search-result {
   overflow-y: auto;
   overflow-x: hidden;
   max-height: 85%;
@@ -278,26 +278,26 @@ body {
 
 /* styling for Card for results from search and filter*/
 
-.searchResult-renderCard {
+.search-result-card {
   width: 100%;
   height: 200px;
   margin-bottom: 8px !important;
 }
 
-#row-searchResult, #col-5-searchResult, #col-7-searchResult .body-searchResult {
+#rowSearchResult, #imageColumnSearchResult, .content-column-search-result .body-search-result {
   height: inherit;
 }
 
-.card-text.searchResult {
+.card-text.search-result {
   font-size: 12px;
   margin-bottom: 5px;
 }
 
-.card-title.searchResult {
+.card-title.search-result {
   font-size: 17px;
 }
 
-.col-5-searchResult, .col-5-popupCard {
+.imageColumnSearchResult, .img-column-popup-card {
   height: 100%;
   width: auto;
   object-fit: contain;
