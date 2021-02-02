@@ -104,5 +104,5 @@ dist
 .tern-port
 .vscode/launch.json
 cda-paintings-v2.de.json
-data.geojson
+# data.geojson
 geoLocationsPaintings.json

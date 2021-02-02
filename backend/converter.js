@@ -58,40 +58,13 @@ async function getLocation(city) {
 }
 
 async function forwardGeoCode(cities, geoJSONPaintings) {
-  const lo = [];
-  let good = 0;
-  let bad = 0;
-
-  for (let i in cities) {
-      try {
-        const l = await getLocation(cities[i]);
-        console.log(l, 'succeded', i, 'von', cities.length);
-        lo.push(l);
-        good++;
-      } catch (err) {
-        console.log(cities[i], 'failed', err, i, 'von', cities.length);
-        lo.push({
-            name: cities[i].split(',')[0],
-            lat: 200,
-            lng: 200,
-        })
-        bad++;
-      }
-  }
-  console.log(good, 'cities found');
-  console.log(bad, 'cities not found');
-
-  const locationsPaintings = lo;
-
-  // ------------------------
-
-  // const promises = [];
-  // cities.forEach((city) => {
-  // promises.push(getLocation(city));
-  // });
+  const promises = [];
+  cities.forEach((city) => {
+    promises.push(getLocation(city));
+  });
 
   // save json(lat, lng) in locationsPaintings
-  // const locationsPaintings = await Promise.all(promises);
+  const locationsPaintings = await Promise.all(promises);
 
   geoJSONPaintings.features.forEach((item) => {
     const geoLocation = locationsPaintings.find((location) => location.name === item.properties.location);
