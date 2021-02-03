@@ -2,12 +2,12 @@
 /* eslint-disable no-unused-vars */
 /* reason: jQuery is loaded via html script tag */
 /* eslint-disable no-undef */
-function renderCard(searchResult, isSearch) {
+function renderCard(searchResult, isFilter) {
   const paintingURL = searchResult.properties.image !== '' ? searchResult.properties.image : 'No-image-available.png';
   const paintingTitle = searchResult.properties.titles;
   const paintingTitleShort = paintingTitle.length > 41 ? `${paintingTitle.substring(0, 40)}...` : paintingTitle;
   const paintingCoordinates = JSON.stringify(searchResult.geometry.coordinates);
-  if (isSearch) {
+  if (isFilter) {
     return `
         <div class="card mb-3 search-result-card">
             <div class="row g-0 m-0" id="rowSearchResult">
@@ -75,17 +75,16 @@ function search() {
     const searchString = searchInput.value.toLowerCase();
     const filteredResult = { ...paintingsGeoJSON };
     filteredResult.features = paintingsGeoJSON.features.filter((elem) => elem.properties.titles.toLowerCase().includes(searchString)
-        || elem.properties.location.toLowerCase().includes(searchString)
-        || elem.properties.repository.toLowerCase().includes(searchString));
+        || elem.properties.location.toLowerCase().includes(searchString));
     renderResults(filteredResult);
   } else {
     renderError('Der Suchbegriff muss aus mindestens 3 Zeichen bestehen.');
   }
 }
 
-function filterYear(year0, year1) {
+function filterYear(startYear, endYear) {
   const filteredResult = { ...paintingsGeoJSON };
-  filteredResult.features = paintingsGeoJSON.features.filter((item) => year0 <= item.properties.dating[0] && year1 >= item.properties.dating[1]);
+  filteredResult.features = paintingsGeoJSON.features.filter((item) => startYear <= item.properties.dating[0] && endYear >= item.properties.dating[1]);
   const filteredResultSort = { ...filteredResult };
   filteredResultSort.features = filteredResult.features.sort((a, b) => a.properties.dating[0] - b.properties.dating[0]);
   renderResults(filteredResultSort);
@@ -126,8 +125,10 @@ function dateListener(e, inputField) {
   if (e.which === 13) {
     const year0 = $('#input-year-start').val() || 0;
     const year1 = $('#input-year-end').val() || 9999;
-    if (year1 > year0) {
-      filterYear(year0, year1);
+    const startYear = parseInt(year0);
+    const endYear= parseInt(year1);
+    if (endYear >= startYear) {
+      filterYear(startYear, endYear);
     } else {
       renderError('Das Startjahr muss vor dem Endjahr liegen.');
     }

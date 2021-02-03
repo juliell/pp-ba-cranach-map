@@ -36,14 +36,14 @@ $(document).ready(async () => {
   $('.btn-reset-search').click(() => {
     $('.btn-reset-search').attr('style', 'display: none !important');
     $('#searchInput').val('');
-    resetFilter();
+    if ($('.result-container').attr('style') === 'display: block !important') resetFilter();
   });
 
   $('.btn-reset-year').click(() => {
     $('.btn-reset-year').attr('style', 'display: none !important');
     $('#input-year-start').val('');
     $('#input-year-end').val('');
-    resetFilter();
+    if ($('.result-container').attr('style') === 'display: block !important') resetFilter();
   });
 
   $('#input-year-start').on('keyup', (e) => {
@@ -57,11 +57,14 @@ $(document).ready(async () => {
   $('.btn-filter-year').click(() => {
     const year0 = $('#input-year-start').val() || 0;
     const year1 = $('#input-year-end').val() || 9999;
-    if (year1 > year0) {
-      filterYear(year0, year1);
+    const startYear = parseInt(year0);
+    const endYear= parseInt(year1);
+    if (endYear >= startYear) {
+      filterYear(startYear, endYear);
     } else {
       renderError('Das Startjahr muss vor dem Endjahr liegen.');
     }
+    
   });
 
   $('#toggle-result-visibility').click(() => {
